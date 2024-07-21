@@ -26,20 +26,28 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @NotEmpty(message = "The field must not be empty!")
-  @Size(max = 50,message = "The maximum length is 50 characters!")
+
+//  @NotEmpty(message = "The field must not be empty!")
+//  @Size(max = 50, message = "The maximum length is 50 characters!")
   private String name;
-  @NotEmpty(message = "The field must not be empty!")
-  @Size(max = 50,message = "The maximum length is 50 characters!")
-  private String lastname;
-  @NotEmpty(message = "The field must not be empty!")
+
+//  @NotEmpty(message = "The field must not be empty!")
+//  @Size(max = 50, message = "The maximum length is 50 characters!")
+  private String lastName;
+
+//  @NotEmpty(message = "The field must not be empty!")
+//  @Size(max = 255, message = "The maximum length is 255 characters!")
   private String password;
-  @NotEmpty(message = "The field must not be empty!")
-  @Size(min = 4, message = "The minimum length is 4 characters!")
-  @Size(max = 20, message = "The maximum length is 20 characters!")
+
+//  @NotEmpty(message = "The field must not be empty!")
+//  @Size(min = 4, message = "The minimum length is 4 characters!")
+//  @Size(max = 20, message = "The maximum length is 20 characters!")
   private String username;
-  @NotEmpty(message = "The field must not be empty!")
+
+//  @NotEmpty(message = "The field must not be empty!")
+//  @Size(max = 255, message = "The maximum length is 255 characters!")
   private String email;
+
   @Enumerated(EnumType.STRING)
   private Role role;
 
