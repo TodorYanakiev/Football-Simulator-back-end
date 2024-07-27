@@ -13,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -23,8 +22,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(value = BaseTeamController.class,
@@ -142,5 +140,14 @@ public class BaseTeamControllerIntegrationTest {
     @Test
     void testDeleteBaseTeamById() throws Exception {
         Long baseTeamId = 1L;
+        String expectedMessage = "Base team with id " + baseTeamId + " deleted successfully.";
+
+        when(baseTeamService.deleteBaseTeamById(baseTeamId)).thenReturn(expectedMessage);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/base-team/delete/{id}", baseTeamId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedMessage))
+                .andReturn();
     }
 }
