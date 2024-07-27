@@ -14,7 +14,7 @@ jacocoTestReport {
 	reports {
 		xml.required = true
 //		csv.required = false
-//		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
 	}
 }
 
@@ -28,6 +28,8 @@ sonar {
 		property "sonar.projectKey", "TodorYanakiev_Football-Simulator-back-end"
 		property "sonar.organization", "todoryanakiev"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.java.coveragePlugin", "jacoco"
+		property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
 	}
 }
 
