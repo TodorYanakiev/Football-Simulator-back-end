@@ -1,13 +1,12 @@
 package com.example.FootballManager_back_end.Mapper;
 
-import com.example.FootballManager_back_end.Dto.BaseTeamDto;
+import com.example.FootballManager_back_end.Dto.BaseTeamDTO;
 import com.example.FootballManager_back_end.Entity.BaseTeam;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BaseTeamMapper {
-    public static BaseTeam toBaseTeam(BaseTeamDto baseTeamDto) {
+    public static BaseTeam toBaseTeam(BaseTeamDTO baseTeamDto) {
         BaseTeam baseTeam = new BaseTeam();
         baseTeam.setId(baseTeamDto.getId());
         baseTeam.setName(baseTeamDto.getName());
@@ -17,8 +16,8 @@ public class BaseTeamMapper {
         return baseTeam;
     }
 
-    public static BaseTeamDto toBaseTeamDto(BaseTeam baseTeam) {
-        BaseTeamDto baseTeamDto = new BaseTeamDto();
+    public static BaseTeamDTO toBaseTeamDto(BaseTeam baseTeam) {
+        BaseTeamDTO baseTeamDto = new BaseTeamDTO();
         baseTeamDto.setId(baseTeam.getId());
         baseTeamDto.setName(baseTeam.getName());
         baseTeamDto.setAbbreviation(baseTeam.getAbbreviation());
