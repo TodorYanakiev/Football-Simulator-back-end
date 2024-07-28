@@ -17,6 +17,8 @@ public class BaseFootballPlayerService {
     private final BaseFootballPlayerRepository baseFootballPlayerRepository;
     private final ModelMapper modelMapper;
 
+    private static final String PLAYER_NOT_FOUND_MESSAGE = "Base player with id %d not found!";
+
     public BaseFootballPlayerDTO baseFootballPlayerToBaseFootballPlayerDTO(BaseFootballPlayer baseFootballPlayer){
         return modelMapper.map(baseFootballPlayer, BaseFootballPlayerDTO.class);
     }
@@ -35,7 +37,7 @@ public class BaseFootballPlayerService {
     public BaseFootballPlayerDTO getBaseFootballPlayerById(Long id) {
         Optional<BaseFootballPlayer> player = baseFootballPlayerRepository.findById(id);
         if (player.isEmpty()) {
-            throw new ApiRequestException("Player with id " + id + " not found!");
+            throw new ApiRequestException(String.format(PLAYER_NOT_FOUND_MESSAGE, id));
         }
         return baseFootballPlayerToBaseFootballPlayerDTO(player.get());
     }
@@ -49,7 +51,7 @@ public class BaseFootballPlayerService {
     public BaseFootballPlayerDTO updateBaseFootballPlayer(Long id, BaseFootballPlayerDTO playerDetails) {
         Optional<BaseFootballPlayer> playerOptional = baseFootballPlayerRepository.findById(id);
         if (playerOptional.isEmpty()) {
-            throw new ApiRequestException("Player with id " + id + " not found!");
+            throw new ApiRequestException(String.format(PLAYER_NOT_FOUND_MESSAGE, id));
         }
 
         BaseFootballPlayer player = playerOptional.get();
@@ -75,9 +77,9 @@ public class BaseFootballPlayerService {
     public String deleteBaseFootballPlayer(Long id) {
         Optional<BaseFootballPlayer> playerOptional = baseFootballPlayerRepository.findById(id);
         if (playerOptional.isEmpty()) {
-            throw new ApiRequestException("Player with id " + id + " not found!");
+            throw new ApiRequestException(String.format(PLAYER_NOT_FOUND_MESSAGE, id));
         }
         baseFootballPlayerRepository.delete(playerOptional.get());
-        return "Player with id " + id + " deleted successfully.";
+        return "Base player with id " + id + " deleted successfully.";
     }
 }

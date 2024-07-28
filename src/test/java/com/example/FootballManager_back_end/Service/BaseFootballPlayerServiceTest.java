@@ -111,4 +111,61 @@ class BaseFootballPlayerServiceTest {
         Assertions.assertThrows(ApiRequestException.class, () -> baseFootballPlayerService.getBaseFootballPlayerById(playerId));
     }
 
+    @Test
+    void testDeleteBasePlayerById() {
+        Long playerId = 1L;
+        BaseFootballPlayer player = new BaseFootballPlayer(playerId, "John", "Doe", "USA", (byte) 25, (byte) 10, Position.RM,
+                (byte) 70, (byte) 85, (byte) 90, (byte) 75, (byte) 80, (byte) 65, (byte) 68, (byte) 60);
+
+        when(baseFootballPlayerRepository.findById(playerId)).thenReturn(Optional.of(player));
+
+        String result = baseFootballPlayerService.deleteBaseFootballPlayer(playerId);
+
+        verify(baseFootballPlayerRepository, times(1)).findById(playerId);
+        verify(baseFootballPlayerRepository, times(1)).delete(player);
+        Assertions.assertEquals("Base player with id " + playerId + " deleted successfully.", result);
+    }
+
+    @Test
+    void testDeleteBasePlayerByIdWithNonExistingIdThrowsException() {
+        Long basePlayerId = 1L;
+
+        when(baseFootballPlayerRepository.findById(basePlayerId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(Exception.class, () -> baseFootballPlayerService.deleteBaseFootballPlayer(basePlayerId));
+        verify(baseFootballPlayerRepository, times(1)).findById(basePlayerId);
+        verify(baseFootballPlayerRepository, never()).delete(any(BaseFootballPlayer.class));
+    }
+
+    @Test
+    void testUpdateBaseFootballPlayerWithExistingId() {
+        Long playerId = 1L;
+        BaseFootballPlayer existingPlayer = new BaseFootballPlayer(playerId, "John", "Doe", "USA", (byte) 25, (byte) 10, Position.LCM,
+                (byte) 70, (byte) 85, (byte) 90, (byte) 75, (byte) 80, (byte) 65, (byte) 68, (byte) 60);
+        BaseFootballPlayerDTO playerDetails = new BaseFootballPlayerDTO(playerId, "Johnny", "Doe", "USA", (byte) 26, (byte) 11, Position.RF,
+                (byte) 72, (byte) 87, (byte) 92, (byte) 77, (byte) 82, (byte) 67, (byte) 70, (byte) 62);
+        BaseFootballPlayer updatedPlayer = new BaseFootballPlayer(playerId, "Johnny", "Doe", "USA", (byte) 26, (byte) 11, Position.RF,
+                (byte) 72, (byte) 87, (byte) 92, (byte) 77, (byte) 82, (byte) 67, (byte) 70, (byte) 62);
+        BaseFootballPlayerDTO expectedPlayerDTO = new BaseFootballPlayerDTO(playerId, "Johnny", "Doe", "USA", (byte) 26, (byte) 11, Position.RF,
+                (byte) 72, (byte) 87, (byte) 92, (byte) 77, (byte) 82, (byte) 67, (byte) 70, (byte) 62);
+
+        when(baseFootballPlayerRepository.findById(playerId)).thenReturn(Optional.of(existingPlayer));
+        when(baseFootballPlayerRepository.save(existingPlayer)).thenReturn(updatedPlayer);
+        when(baseFootballPlayerService.baseFootballPlayerToBaseFootballPlayerDTO(updatedPlayer)).thenReturn(expectedPlayerDTO);
+
+        BaseFootballPlayerDTO result = baseFootballPlayerService.updateBaseFootballPlayer(playerId, playerDetails);
+
+        Assertions.assertEquals(expectedPlayerDTO, result);
+    }
+
+    @Test
+    void testUpdateBaseFootballPlayerWithNonExistingIdThenThrowsException() {
+        Long playerId = 1L;
+        BaseFootballPlayerDTO playerDetails = new BaseFootballPlayerDTO(playerId, "Johnny", "Doe", "USA", (byte) 26, (byte) 11, Position.LM,
+                (byte) 72, (byte) 87, (byte) 92, (byte) 77, (byte) 82, (byte) 67, (byte) 70, (byte) 62);
+
+        when(baseFootballPlayerRepository.findById(playerId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ApiRequestException.class, () -> baseFootballPlayerService.updateBaseFootballPlayer(playerId, playerDetails));
+    }
 }
