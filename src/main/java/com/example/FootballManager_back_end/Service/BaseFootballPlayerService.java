@@ -39,8 +39,10 @@ public class BaseFootballPlayerService {
         }
         return baseFootballPlayerToBaseFootballPlayerDTO(player.get());
     }
+
     public BaseFootballPlayerDTO createBaseFootballPlayer(BaseFootballPlayerDTO baseFootballPlayerDTO) {
         BaseFootballPlayer baseFootballPlayer = baseFootballPlayerDTOToBaseFootballPlayer(baseFootballPlayerDTO);
+        baseFootballPlayerRepository.save(baseFootballPlayer);
         return baseFootballPlayerToBaseFootballPlayerDTO(baseFootballPlayer);
     }
 
@@ -75,7 +77,7 @@ public class BaseFootballPlayerService {
         if (playerOptional.isEmpty()) {
             throw new ApiRequestException("Player with id " + id + " not found!");
         }
-        baseFootballPlayerRepository.deleteById(id);
-        return "Player with id " + id + " was deleted!";
+        baseFootballPlayerRepository.delete(playerOptional.get());
+        return "Player with id " + id + " deleted successfully.";
     }
 }

@@ -1,8 +1,7 @@
 package com.example.FootballManager_back_end.DTO;
 
 import com.example.FootballManager_back_end.Enum.Position;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseFootballPlayerDTO {
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
     private String firstName;
     private String lastName;
