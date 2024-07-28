@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/base-football-player")
+@RequestMapping("/api/v1/base-football-players")
 public class BaseFootballPlayerController {
     private final BaseFootballPlayerService baseFootballPlayerService;
 
