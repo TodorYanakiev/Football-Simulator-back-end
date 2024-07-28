@@ -15,13 +15,13 @@ import java.util.List;
 public class BaseFootballPlayerController {
     private final BaseFootballPlayerService baseFootballPlayerService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<BaseFootballPlayerDTO> createBaseFootballPlayer(@Valid @RequestBody BaseFootballPlayerDTO baseFootballPlayerDTO) {
         BaseFootballPlayerDTO newBaseFootballPlayerDTO = baseFootballPlayerService.createBaseFootballPlayer(baseFootballPlayerDTO);
         return ResponseEntity.status(201).body(newBaseFootballPlayerDTO);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<BaseFootballPlayerDTO>> getAllFootballPlayers() {
         List<BaseFootballPlayerDTO> baseFootballPlayerDTOS = baseFootballPlayerService.getAllBaseFootballPlayers();
         return ResponseEntity.ok(baseFootballPlayerDTOS);
