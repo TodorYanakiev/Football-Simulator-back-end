@@ -42,4 +42,9 @@ public class ApplicationConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public JwtAuthenticationEntryPoint myJwtAuthenticationEntryPoint() {
+        return new JwtAuthenticationEntryPoint();
+    }
 }
