@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         value = BaseTeamController.class
                 )
         })
-public class BaseTeamControllerIntegrationTest {
+class BaseTeamControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -58,7 +58,7 @@ public class BaseTeamControllerIntegrationTest {
 
         when(baseTeamService.createBaseTeam(any(BaseTeamDTO.class))).thenReturn(createdBaseTeamDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/base-team/add")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/base-teams")
                         .content(objectMapper.writeValueAsString(baseTeamDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -81,7 +81,7 @@ public class BaseTeamControllerIntegrationTest {
 
         when(baseTeamService.getAllBaseTeams()).thenReturn(baseTeamDTOList);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/base-team/get-all")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/base-teams")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id").value(1))
@@ -105,7 +105,7 @@ public class BaseTeamControllerIntegrationTest {
 
         when(baseTeamService.getBaseTeamById(baseTeamId)).thenReturn(baseTeamDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/base-team/get/{id}", baseTeamId)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/base-teams/{id}", baseTeamId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -125,9 +125,9 @@ public class BaseTeamControllerIntegrationTest {
 
         when(baseTeamService.updateBaseTeam(anyLong(), any(BaseTeamDTO.class))).thenReturn(updatedBaseTeamDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/base-team/update/{id}", baseTeamId)
-                .content(objectMapper.writeValueAsString(updatedBaseTeamDTO))
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/base-teams/{id}", baseTeamId)
+                        .content(objectMapper.writeValueAsString(updatedBaseTeamDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(baseTeamId))
                 .andExpect(jsonPath("$.name").value("UpdatedTorpedo"))
@@ -144,8 +144,8 @@ public class BaseTeamControllerIntegrationTest {
 
         when(baseTeamService.deleteBaseTeamById(baseTeamId)).thenReturn(expectedMessage);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/base-team/delete/{id}", baseTeamId)
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/base-teams/{id}", baseTeamId)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedMessage))
                 .andReturn();
