@@ -1,7 +1,5 @@
 package com.example.FootballManager_back_end.config;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +32,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui/index.html")
                         .permitAll()
+                        .requestMatchers("/api/v1/base-teams**")
+                        .hasAuthority("ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
