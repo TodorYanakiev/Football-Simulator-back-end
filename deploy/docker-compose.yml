@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   api_service:
-    image: atchee/football-simulator
+    image: atchee/football-simulator-back-end
     restart: always
     ports:
       - 8081:8081
@@ -23,5 +23,14 @@ services:
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
       - MYSQL_DATABASE=football-simulator
+  frontend_service:
+    image: atchee/football-simulator-front-end
+    restart: always
+    ports:
+      - 8082:8082
+    networks:
+      - springapimysql-net
+    depends_on:
+      - api_service
 networks:
   springapimysql-net:
