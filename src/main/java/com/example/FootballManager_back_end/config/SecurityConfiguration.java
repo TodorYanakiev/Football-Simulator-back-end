@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                         new RequestHeaderRequestMatcher(HttpHeaders.COOKIE)
                 )))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui/index.html")
+                        .requestMatchers("/api/v1/auth/register", "/api/v1/auth/authenticate", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui/index.html")
                         .permitAll()
                         .requestMatchers("/api/v1/base-teams**", "/api/v1/base-football-players/**")
                         .hasAuthority("ADMIN")
@@ -57,9 +57,10 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:8081"));
+        configuration.setAllowedOrigins(List.of("http://localhost:8081", "http://localhost:8082",
+                "http://localhost:8081*", "http://localhost:8082*", "http://localhost:8081**", "http://localhost:8082**"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("*", "**", "Authorization", "Content-Type")); //"Authorization", "Content-Type"
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

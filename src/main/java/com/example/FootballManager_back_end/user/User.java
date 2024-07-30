@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -64,6 +61,7 @@ public class User implements UserDetails {
   @Override
   public String getUsername() {
     return email;
+    //I do not know why, but in other ways it does not work :(
   }
 
   @Override

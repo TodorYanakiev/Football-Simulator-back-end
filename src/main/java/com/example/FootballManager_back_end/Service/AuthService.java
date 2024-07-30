@@ -16,9 +16,9 @@ public class AuthService {
     public UserDTO getUserInfo(){
         String authHeader = request.getHeader("Authorization");
         String jwt;
-        String username;
+        String email;
         jwt = authHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
-        return userService.findUserByUsername(username);
+        email = jwtService.extractUsername(jwt);
+        return userService.findUserByEmail(email);
     }
 }
