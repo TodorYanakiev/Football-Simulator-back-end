@@ -26,6 +26,8 @@ sonar {
 		property "sonar.projectKey", "TodorYanakiev_Football-Simulator-back-end"
 		property "sonar.organization", "todoryanakiev"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.java.coveragePlugin", "jacoco"
+		property "sonar.coverage.jacoco.xmlReportPaths", "${layout.buildDirectory.dir('customJacocoReportDir')}/jacocoTestReport.xml"
 	}
 }
 group = 'com.example'
