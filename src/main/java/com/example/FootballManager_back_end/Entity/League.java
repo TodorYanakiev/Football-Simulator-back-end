@@ -37,5 +37,6 @@ public class League {
     //@Size(min=12) //min teams*2
     // private List <gameWeek> gameWeeksLeague;
 
-    private boolean Started = false; //by default, when it gets added it turns into true?
+    private boolean started = false; //by default, when it gets added it turns into true?
+                                    //In future we can make the field Enum with these options: NOT_STARTED, STARTED, FINISHED.
 }
