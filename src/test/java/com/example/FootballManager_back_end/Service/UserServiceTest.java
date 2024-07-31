@@ -1,6 +1,7 @@
 package com.example.FootballManager_back_end.Service;
 
 import com.example.FootballManager_back_end.DTO.UserDTO;
+import com.example.FootballManager_back_end.Exception.ApiRequestException;
 import com.example.FootballManager_back_end.user.User;
 import com.example.FootballManager_back_end.user.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -85,5 +86,48 @@ class UserServiceTest {
         verify(userRepository, times(1)).findByUsername(username);
         verify(modelMapper, times(1)).map(user, UserDTO.class);
         Assertions.assertEquals(userDTO, result);
+    }
+
+    @Test
+    void testFindUserByUsernameWithNonExistingUser() {
+        String username = "nonExistingUser";
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ApiRequestException.class, () -> userService.findUserByUsername(username));
+
+        verify(userRepository, times(1)).findByUsername(username);
+    }
+
+    @Test
+    void testFindUserByEmailWithExistingUser() {
+        String email = "test@example.com";
+        User user = new User();
+        user.setId(1L);
+        user.setEmail(email);
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        userDTO.setEmail(email);
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(modelMapper.map(user, UserDTO.class)).thenReturn(userDTO);
+
+        UserDTO result = userService.findUserByEmail(email);
+
+        verify(userRepository, times(1)).findByEmail(email);
+        verify(modelMapper, times(1)).map(user, UserDTO.class);
+        Assertions.assertEquals(userDTO, result);
+    }
+
+    @Test
+    void testFindUserByEmailWithNonExistingUser() {
+        String email = "nonExisting@example.com";
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ApiRequestException.class, () -> userService.findUserByEmail(email));
+
+        verify(userRepository, times(1)).findByEmail(email);
     }
 }
