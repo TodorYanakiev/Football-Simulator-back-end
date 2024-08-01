@@ -42,4 +42,9 @@ public class UserService {
             throw new ApiRequestException("User with email " + email + " not found.");
         }
     }
+
+    public boolean doesUserExist(User user) {
+        Optional<User> userByEmail = userRepository.findByEmail(user.getEmail());
+        return userByEmail.isPresent();
+    }
 }

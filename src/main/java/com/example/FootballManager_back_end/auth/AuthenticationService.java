@@ -1,5 +1,7 @@
 package com.example.FootballManager_back_end.auth;
 
+import com.example.FootballManager_back_end.Exception.ApiRequestException;
+import com.example.FootballManager_back_end.Service.UserService;
 import com.example.FootballManager_back_end.config.JwtService;
 import com.example.FootballManager_back_end.user.Role;
 import com.example.FootballManager_back_end.user.User;
@@ -17,16 +19,19 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
     public AuthenticationResponse register(RegisterRequest request) {
+
         var user = User.builder()
-                .name(request.getFirstname())
-                .lastName(request.getLastname())
+                .name(request.getFirstName())
+                .lastName(request.getLastName())
                 .email(request.getEmail())
-                .username(request.getUsername())
+                .username(request.getUsername())//idea = change to get email.
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
+        if (userService.doesUserExist(user)) throw new ApiRequestException("User with such email already exists!");
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
