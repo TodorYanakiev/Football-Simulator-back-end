@@ -9,30 +9,58 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 22
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: 22
+          java-version: 17
           distribution: 'zulu' # Alternative distribution options are available
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Build and analyze
+
+      - name: Set Gradlew permissions
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew --no-daemon --stacktrace --info assemble
+
+      - name: Test
+        run: ./gradlew --no-daemon --stacktrace --info test jacocoTestReport
+
+      - name: Analyze with SonarCloud
+        uses: gradle/gradle-build-action@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run:
-          gradle :sonar --info
+        with:
+          gradle-version: 8.5
+          arguments: sonar --info
+
+#      - name: Build with Gradle
+#        run: ./gradlew build
+#
+#      - name: Run tests and generate coverage report
+#        run: ./gradlew test jacocoTestReport
+#
+#      - name: Run SonarQube analysis
+#        env:
+#            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+#            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        run: ./gradlew sonarqube --info
