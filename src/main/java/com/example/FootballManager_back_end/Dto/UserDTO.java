@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseTeamDTO {
+public class UserDTO {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
     private String name;
-    private String abbreviation;
-    private String stadiumName;
-    private Integer startBudget;
+    private String lastName;
+    private String username;
+    private String email;
 }

@@ -45,6 +45,11 @@ public class ApplicationConfig {
     }
 
     @Bean
+    public JwtAuthenticationEntryPoint myJwtAuthenticationEntryPoint() {
+        return new JwtAuthenticationEntryPoint();
+    }
+    
+    @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
     }

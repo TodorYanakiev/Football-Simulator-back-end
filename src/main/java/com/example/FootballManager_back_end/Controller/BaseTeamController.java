@@ -1,6 +1,6 @@
 package com.example.FootballManager_back_end.Controller;
 
-import com.example.FootballManager_back_end.Dto.BaseTeamDTO;
+import com.example.FootballManager_back_end.DTO.BaseTeamDTO;
 import com.example.FootballManager_back_end.Service.BaseTeamService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

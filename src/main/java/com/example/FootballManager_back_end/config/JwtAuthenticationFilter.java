@@ -1,5 +1,9 @@
 package com.example.FootballManager_back_end.config;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,34 +27,53 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final UserDetailsService userDetailsService;
 
   @Override
-  protected void doFilterInternal(
-      @NonNull HttpServletRequest request,
-      @NonNull HttpServletResponse response,
-      @NonNull FilterChain filterChain
-  ) throws ServletException, IOException {
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     final String authHeader = request.getHeader("Authorization");
     final String jwt;
-    final String userEmail;
+    final String username;
+
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       filterChain.doFilter(request, response);
       return;
     }
-    jwt = authHeader.substring(7);
-    userEmail = jwtService.extractUsername(jwt);
-    if (userEmail != null  && SecurityContextHolder.getContext().getAuthentication() == null) {
-      UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-      if (jwtService.isTokenValid(jwt, userDetails)) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                null,
-                userDetails.getAuthorities()
-        );
-        authToken.setDetails(
-                new WebAuthenticationDetailsSource().buildDetails(request)
-        );
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+    try {
+      jwt = authHeader.substring(7);
+      username = jwtService.extractUsername(jwt);
+
+
+      if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        if (jwtService.isTokenValid(jwt, userDetails)) {
+          UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                  userDetails,
+                  null,
+                  userDetails.getAuthorities()
+          );
+          authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+          SecurityContextHolder.getContext().setAuthentication(authToken);
+        }
       }
+      filterChain.doFilter(request, response);
+    } catch (SignatureException ex) {
+      response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      ( response).sendError(HttpServletResponse.SC_FORBIDDEN, "No valid signature");
+
+    } catch (MalformedJwtException ex) {
+      response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      (response).sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid authorization token");
+
+    } catch (ExpiredJwtException ex) {
+      response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      (response).sendError(HttpServletResponse.SC_FORBIDDEN, "Expired authorization token");
+
+    } catch (UnsupportedJwtException ex) {
+      response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      ( response).sendError(HttpServletResponse.SC_FORBIDDEN, "Unsupported authorization token ");
+
+    } catch (IllegalArgumentException ex) {
+      response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      (response).sendError(HttpServletResponse.SC_FORBIDDEN, "JWT claims string is empty");
+
     }
-    filterChain.doFilter(request, response);
   }
 }
