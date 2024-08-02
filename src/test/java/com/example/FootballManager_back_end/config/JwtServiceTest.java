@@ -1,6 +1,5 @@
-package com.example.FootballManager_back_end.Service;
+package com.example.FootballManager_back_end.config;
 
-import com.example.FootballManager_back_end.config.JwtService;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

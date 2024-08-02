@@ -1,7 +1,5 @@
-package com.example.FootballManager_back_end;
+package com.example.FootballManager_back_end.config;
 
-import com.example.FootballManager_back_end.config.JwtAuthenticationFilter;
-import com.example.FootballManager_back_end.config.JwtService;
 import io.jsonwebtoken.*;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
