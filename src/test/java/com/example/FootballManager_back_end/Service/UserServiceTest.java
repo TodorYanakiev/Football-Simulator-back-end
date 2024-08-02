@@ -14,6 +14,8 @@ import org.modelmapper.ModelMapper;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class UserServiceTest {
@@ -129,5 +131,27 @@ class UserServiceTest {
         Assertions.assertThrows(ApiRequestException.class, () -> userService.findUserByEmail(email));
 
         verify(userRepository, times(1)).findByEmail(email);
+    }
+
+    @Test
+    void testDoesUserExist_UserExists() {
+        User user = new User();
+        user.setEmail("test@example.com");
+
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+
+        boolean exists = userService.doesUserExist(user);
+        assertTrue(exists);
+    }
+
+    @Test
+    void testDoesUserExist_UserDoesNotExist() {
+        User user = new User();
+        user.setEmail("test@example.com");
+
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+
+        boolean exists = userService.doesUserExist(user);
+        assertFalse(exists);
     }
 }
