@@ -2,6 +2,7 @@ package com.example.FootballManager_back_end.Service;
 
 import com.example.FootballManager_back_end.DTO.BaseTeamDTO;
 import com.example.FootballManager_back_end.Entity.BaseTeam;
+import com.example.FootballManager_back_end.Exception.ApiRequestException;
 import com.example.FootballManager_back_end.Repository.BaseTeamRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,6 +17,8 @@ public class BaseTeamService {
     private final BaseTeamRepository baseTeamRepository;
     private final ModelMapper modelMapper;
 
+    private static final String TEAM_NOT_FOUND_MESSAGE = "Base team with id %d not found!";
+
     public BaseTeamDTO baseTeamToBaseTeamDTO(BaseTeam baseTeam) {
         return modelMapper.map(baseTeam, BaseTeamDTO.class);
     }
@@ -25,6 +28,13 @@ public class BaseTeamService {
     }
 
     public BaseTeamDTO createBaseTeam(BaseTeamDTO baseTeamDto) {
+        if (baseTeamDto.getName() == null || baseTeamDto.getName().length() < 3)
+            throw new ApiRequestException("Name must be at least 3 symbols long.");
+        else if (baseTeamDto.getAbbreviation() == null || baseTeamDto.getAbbreviation().length() < 2 || baseTeamDto.getAbbreviation().length() > 4)
+            throw new ApiRequestException("Abbreviation must be between 2 and 4 symbols long.");
+        else if (baseTeamDto.getStadiumName() == null || baseTeamDto.getStadiumName().length() < 3)
+            throw new ApiRequestException("Stadium name must be at least 3 symbols long.");
+        else if (baseTeamDto.getStartBudget() < 0) throw new ApiRequestException("Budget can not be negative.");
         BaseTeam baseTeam = baseTeamDTOToBaseTeam(baseTeamDto);
         baseTeamRepository.save(baseTeam);
         return baseTeamToBaseTeamDTO(baseTeam);
@@ -35,19 +45,27 @@ public class BaseTeamService {
         return baseTeamList.stream().map(this::baseTeamToBaseTeamDTO).toList();
     }
 
-    public BaseTeamDTO getBaseTeamById(Long id) throws Exception {
+    public BaseTeamDTO getBaseTeamById(Long id) {
         Optional<BaseTeam> optionalBaseTeam = baseTeamRepository.findById(id);
         if (optionalBaseTeam.isEmpty()) {
-            throw new Exception("Base team with id " + id + " not found.");
+            throw new ApiRequestException(String.format(TEAM_NOT_FOUND_MESSAGE, id));
         }
         return baseTeamToBaseTeamDTO(optionalBaseTeam.get());
     }
 
-    public BaseTeamDTO updateBaseTeam(Long id, BaseTeamDTO newBaseTeamDto) throws Exception {
+    public BaseTeamDTO updateBaseTeam(Long id, BaseTeamDTO newBaseTeamDto) {
         Optional<BaseTeam> optionalBaseTeam = baseTeamRepository.findById(id);
         if (optionalBaseTeam.isEmpty()) {
-            throw new Exception("Base team with id " + id + " not found.");
+            throw new ApiRequestException(String.format(TEAM_NOT_FOUND_MESSAGE, id));
         }
+        if (newBaseTeamDto.getName() == null || newBaseTeamDto.getName().length() < 3)
+            throw new ApiRequestException("Name must be at least 3 symbols long.");
+        else if (newBaseTeamDto.getAbbreviation() == null || newBaseTeamDto.getAbbreviation().length() < 2
+                || newBaseTeamDto.getAbbreviation().length() > 4)
+            throw new ApiRequestException("Abbreviation must be between 2 and 4 symbols long.");
+        else if (newBaseTeamDto.getStadiumName() == null || newBaseTeamDto.getStadiumName().length() < 3)
+            throw new ApiRequestException("Stadium name must be at least 3 symbols long.");
+        else if (newBaseTeamDto.getStartBudget() < 0) throw new ApiRequestException("Budget can not be negative.");
         BaseTeam baseTeam = optionalBaseTeam.get();
         baseTeam.setName(newBaseTeamDto.getName());
         baseTeam.setAbbreviation(newBaseTeamDto.getAbbreviation());
@@ -57,10 +75,10 @@ public class BaseTeamService {
         return baseTeamToBaseTeamDTO(updatedBaseTeam);
     }
 
-    public String deleteBaseTeamById(Long id) throws Exception {
+    public String deleteBaseTeamById(Long id) {
         Optional<BaseTeam> optionalBaseTeam = baseTeamRepository.findById(id);
         if (optionalBaseTeam.isEmpty()) {
-            throw new Exception("Base team with id " + id + " not found.");
+            throw new ApiRequestException(String.format(TEAM_NOT_FOUND_MESSAGE, id));
         }
         baseTeamRepository.delete(optionalBaseTeam.get());
         return "Base team with id " + id + " deleted successfully.";
