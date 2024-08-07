@@ -39,7 +39,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/v1/auth/register", "/api/v1/auth/authenticate", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui/index.html")
                         .permitAll()
-                        .requestMatchers("/api/v1/base-teams**", "/api/v1/base-football-players/**")
+                        .requestMatchers("/api/v1/base-teams/**", "/api/v1/base-football-players/**")
                         .hasAuthority("ADMIN")
                         .anyRequest()
                         .authenticated()
