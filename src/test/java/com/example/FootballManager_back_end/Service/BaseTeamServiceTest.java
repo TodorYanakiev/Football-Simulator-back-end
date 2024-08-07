@@ -155,10 +155,10 @@ class BaseTeamServiceTest {
         BaseTeamDTO expectedBaseTeamDTO = new BaseTeamDTO(baseTeamId, "Updated Team", "UPT", "Updated Stadium", 200000);
 
         when(baseTeamRepository.findById(baseTeamId)).thenReturn(Optional.of(existingBaseTeam));
-        when(baseTeamRepository.save(existingBaseTeam)).thenReturn(updatedBaseTeam);
+        when(baseTeamRepository.save(any(BaseTeam.class))).thenReturn(updatedBaseTeam);
         when(modelMapper.map(updatedBaseTeam, BaseTeamDTO.class)).thenReturn(expectedBaseTeamDTO);
 
-        BaseTeamDTO result = baseTeamService.updateBaseTeam(baseTeamId, newBaseTeamDTO);
+        BaseTeamDTO result = baseTeamService.updateBaseTeamById(baseTeamId, newBaseTeamDTO);
 
         verify(baseTeamRepository, times(1)).findById(baseTeamId);
         verify(baseTeamRepository, times(1)).save(existingBaseTeam);
@@ -173,31 +173,31 @@ class BaseTeamServiceTest {
 
         when(baseTeamRepository.findById(baseTeamId)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ApiRequestException.class, () -> baseTeamService.updateBaseTeam(baseTeamId, newBaseTeamDTO));
+        Assertions.assertThrows(ApiRequestException.class, () -> baseTeamService.updateBaseTeamById(baseTeamId, newBaseTeamDTO));
         verify(baseTeamRepository, times(1)).findById(baseTeamId);
         verify(baseTeamRepository, never()).save(any(BaseTeam.class));
         verify(modelMapper, never()).map(any(), eq(BaseTeamDTO.class));
     }
 
     @ParameterizedTest
-    @MethodSource("provideInvalidBaseTeamDTOs")
+    @MethodSource("provideInvalidBaseTeamDTOsForUpdate")
     void testUpdateBaseTeamWithInvalidFieldsThrowsException(BaseTeamDTO newBaseTeamDTO) {
         Long baseTeamId = 1L;
         BaseTeam existingBaseTeam = new BaseTeam(baseTeamId, "Old Team", "OTM", "Old Stadium", 100000);
 
         when(baseTeamRepository.findById(baseTeamId)).thenReturn(Optional.of(existingBaseTeam));
 
-        Assertions.assertThrows(ApiRequestException.class, () -> baseTeamService.updateBaseTeam(baseTeamId, newBaseTeamDTO));
-        verify(baseTeamRepository, times(1)).findById(baseTeamId);
-        verify(baseTeamRepository, never()).save(any(BaseTeam.class));
+        Assertions.assertThrows(ApiRequestException.class, () -> baseTeamService.updateBaseTeamById(baseTeamId, newBaseTeamDTO));
+        verify(baseTeamRepository, never()).save(existingBaseTeam);
         verify(modelMapper, never()).map(any(), eq(BaseTeamDTO.class));
     }
 
-    private static Stream<Arguments> provideInvalidBaseTeamDTOs() {
+    private static Stream<Arguments> provideInvalidBaseTeamDTOsForUpdate() {
         return Stream.of(
                 Arguments.of(new BaseTeamDTO(1L, "UT", "UPT", "Updated Stadium", 200000)), // Invalid name
                 Arguments.of(new BaseTeamDTO(1L, "Updated Team", "U", "Updated Stadium", 200000)), // Invalid abbreviation
-                Arguments.of(new BaseTeamDTO(1L, "Updated Team", "UPT", "US", 200000)) // Invalid stadium name
+                Arguments.of(new BaseTeamDTO(1L, "Updated Team", "UPT", "US", 200000)), // Invalid stadium name
+                Arguments.of(new BaseTeamDTO(1L, "Updated Team", "UPT", "Updated Stadium", -200000)) // Negative budget
         );
     }
 
@@ -209,9 +209,8 @@ class BaseTeamServiceTest {
 
         when(baseTeamRepository.findById(baseTeamId)).thenReturn(Optional.of(existingBaseTeam));
 
-        Assertions.assertThrows(ApiRequestException.class, () -> baseTeamService.updateBaseTeam(baseTeamId, newBaseTeamDTO));
-        verify(baseTeamRepository, times(1)).findById(baseTeamId);
-        verify(baseTeamRepository, never()).save(any(BaseTeam.class));
+        Assertions.assertThrows(ApiRequestException.class, () -> baseTeamService.updateBaseTeamById(baseTeamId, newBaseTeamDTO));
+        verify(baseTeamRepository, never()).save(existingBaseTeam);
         verify(modelMapper, never()).map(any(), eq(BaseTeamDTO.class));
     }
 
@@ -223,20 +222,19 @@ class BaseTeamServiceTest {
         when(baseTeamRepository.findById(baseTeamId)).thenReturn(Optional.of(baseTeam));
 
         String result = baseTeamService.deleteBaseTeamById(baseTeamId);
-
         verify(baseTeamRepository, times(1)).findById(baseTeamId);
         verify(baseTeamRepository, times(1)).delete(baseTeam);
         Assertions.assertEquals("Base team with id " + baseTeamId + " deleted successfully.", result);
     }
 
     @Test
-    void testDeleteBaseTeamByIdWithNonExistingIdThrowsException() {
+    void testDeleteBaseTeamWithNonExistingIdThrowsException() {
         Long baseTeamId = 1L;
 
         when(baseTeamRepository.findById(baseTeamId)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(ApiRequestException.class, () -> baseTeamService.deleteBaseTeamById(baseTeamId));
         verify(baseTeamRepository, times(1)).findById(baseTeamId);
-        verify(baseTeamRepository, never()).delete(any(BaseTeam.class));
+        verify(baseTeamRepository, never()).deleteById(baseTeamId);
     }
 }

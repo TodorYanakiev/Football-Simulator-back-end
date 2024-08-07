@@ -28,13 +28,7 @@ public class BaseTeamService {
     }
 
     public BaseTeamDTO createBaseTeam(BaseTeamDTO baseTeamDto) {
-        if (baseTeamDto.getName() == null || baseTeamDto.getName().length() < 3)
-            throw new ApiRequestException("Name must be at least 3 symbols long.");
-        else if (baseTeamDto.getAbbreviation() == null || baseTeamDto.getAbbreviation().length() < 2 || baseTeamDto.getAbbreviation().length() > 4)
-            throw new ApiRequestException("Abbreviation must be between 2 and 4 symbols long.");
-        else if (baseTeamDto.getStadiumName() == null || baseTeamDto.getStadiumName().length() < 3)
-            throw new ApiRequestException("Stadium name must be at least 3 symbols long.");
-        else if (baseTeamDto.getStartBudget() < 0) throw new ApiRequestException("Budget can not be negative.");
+        checkValidations(baseTeamDto);
         BaseTeam baseTeam = baseTeamDTOToBaseTeam(baseTeamDto);
         baseTeamRepository.save(baseTeam);
         return baseTeamToBaseTeamDTO(baseTeam);
@@ -53,11 +47,22 @@ public class BaseTeamService {
         return baseTeamToBaseTeamDTO(optionalBaseTeam.get());
     }
 
-    public BaseTeamDTO updateBaseTeam(Long id, BaseTeamDTO newBaseTeamDto) {
+    public BaseTeamDTO updateBaseTeamById(Long id, BaseTeamDTO newBaseTeamDto) {
         Optional<BaseTeam> optionalBaseTeam = baseTeamRepository.findById(id);
         if (optionalBaseTeam.isEmpty()) {
             throw new ApiRequestException(String.format(TEAM_NOT_FOUND_MESSAGE, id));
         }
+        checkValidations(newBaseTeamDto);
+        BaseTeam baseTeam = optionalBaseTeam.get();
+        baseTeam.setName(newBaseTeamDto.getName());
+        baseTeam.setAbbreviation(newBaseTeamDto.getAbbreviation());
+        baseTeam.setStadiumName(newBaseTeamDto.getStadiumName());
+        baseTeam.setStartBudget(newBaseTeamDto.getStartBudget());
+        BaseTeam updatedBaseTeam = baseTeamRepository.save(baseTeam);
+        return baseTeamToBaseTeamDTO(updatedBaseTeam);
+    }
+
+    private void checkValidations(BaseTeamDTO newBaseTeamDto) {
         if (newBaseTeamDto.getName() == null || newBaseTeamDto.getName().length() < 3)
             throw new ApiRequestException("Name must be at least 3 symbols long.");
         else if (newBaseTeamDto.getAbbreviation() == null || newBaseTeamDto.getAbbreviation().length() < 2
@@ -66,13 +71,6 @@ public class BaseTeamService {
         else if (newBaseTeamDto.getStadiumName() == null || newBaseTeamDto.getStadiumName().length() < 3)
             throw new ApiRequestException("Stadium name must be at least 3 symbols long.");
         else if (newBaseTeamDto.getStartBudget() < 0) throw new ApiRequestException("Budget can not be negative.");
-        BaseTeam baseTeam = optionalBaseTeam.get();
-        baseTeam.setName(newBaseTeamDto.getName());
-        baseTeam.setAbbreviation(newBaseTeamDto.getAbbreviation());
-        baseTeam.setStadiumName(newBaseTeamDto.getStadiumName());
-        baseTeam.setStartBudget(newBaseTeamDto.getStartBudget());
-        BaseTeam updatedBaseTeam = baseTeamRepository.save(baseTeam);
-        return baseTeamToBaseTeamDTO(updatedBaseTeam);
     }
 
     public String deleteBaseTeamById(Long id) {

@@ -34,7 +34,7 @@ public class BaseTeamController {
 
     @PutMapping("/{id}")
     public ResponseEntity<BaseTeamDTO> updateBaseTeamById(@PathVariable Long id, @Valid @RequestBody BaseTeamDTO newBaseTeamDto){
-        BaseTeamDTO baseTeamDTO = baseTeamService.updateBaseTeam(id, newBaseTeamDto);
+        BaseTeamDTO baseTeamDTO = baseTeamService.updateBaseTeamById(id, newBaseTeamDto);
         return ResponseEntity.ok(baseTeamDTO);
     }
 
