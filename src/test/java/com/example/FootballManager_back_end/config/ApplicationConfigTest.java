@@ -1,7 +1,7 @@
 package com.example.FootballManager_back_end.config;
 
-import com.example.FootballManager_back_end.user.User;
-import com.example.FootballManager_back_end.user.UserRepository;
+import com.example.FootballManager_back_end.Entity.User;
+import com.example.FootballManager_back_end.Repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

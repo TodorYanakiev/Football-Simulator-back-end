@@ -1,6 +1,9 @@
 package com.example.FootballManager_back_end.auth;
 
 import com.example.FootballManager_back_end.DTO.UserDTO;
+import com.example.FootballManager_back_end.DTO.Request.AuthenticationRequest;
+import com.example.FootballManager_back_end.DTO.Request.RegisterRequest;
+import com.example.FootballManager_back_end.DTO.Response.AuthenticationResponse;
 import com.example.FootballManager_back_end.Service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

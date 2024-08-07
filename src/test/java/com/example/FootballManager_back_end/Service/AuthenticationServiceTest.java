@@ -1,14 +1,14 @@
 package com.example.FootballManager_back_end.Service;
 
 import com.example.FootballManager_back_end.Exception.ApiRequestException;
-import com.example.FootballManager_back_end.auth.AuthenticationRequest;
-import com.example.FootballManager_back_end.auth.AuthenticationResponse;
+import com.example.FootballManager_back_end.DTO.Request.AuthenticationRequest;
+import com.example.FootballManager_back_end.DTO.Response.AuthenticationResponse;
 import com.example.FootballManager_back_end.auth.AuthenticationService;
-import com.example.FootballManager_back_end.auth.RegisterRequest;
+import com.example.FootballManager_back_end.DTO.Request.RegisterRequest;
 import com.example.FootballManager_back_end.config.JwtService;
-import com.example.FootballManager_back_end.user.Role;
-import com.example.FootballManager_back_end.user.User;
-import com.example.FootballManager_back_end.user.UserRepository;
+import com.example.FootballManager_back_end.Enum.Role;
+import com.example.FootballManager_back_end.Entity.User;
+import com.example.FootballManager_back_end.Repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

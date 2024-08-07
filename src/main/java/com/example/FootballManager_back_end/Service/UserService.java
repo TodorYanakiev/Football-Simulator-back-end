@@ -2,8 +2,8 @@ package com.example.FootballManager_back_end.Service;
 
 import com.example.FootballManager_back_end.DTO.UserDTO;
 import com.example.FootballManager_back_end.Exception.ApiRequestException;
-import com.example.FootballManager_back_end.user.User;
-import com.example.FootballManager_back_end.user.UserRepository;
+import com.example.FootballManager_back_end.Entity.User;
+import com.example.FootballManager_back_end.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
