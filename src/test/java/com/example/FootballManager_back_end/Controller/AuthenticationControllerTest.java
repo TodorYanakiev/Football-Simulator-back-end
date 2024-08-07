@@ -1,6 +1,9 @@
 package com.example.FootballManager_back_end.Controller;
 
 import com.example.FootballManager_back_end.DTO.UserDTO;
+import com.example.FootballManager_back_end.DTO.Request.AuthenticationRequest;
+import com.example.FootballManager_back_end.DTO.Request.RegisterRequest;
+import com.example.FootballManager_back_end.DTO.Response.AuthenticationResponse;
 import com.example.FootballManager_back_end.Service.AuthService;
 import com.example.FootballManager_back_end.auth.*;
 import com.fasterxml.jackson.databind.ObjectMapper;

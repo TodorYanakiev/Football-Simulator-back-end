@@ -1,5 +1,6 @@
-package com.example.FootballManager_back_end.user;
+package com.example.FootballManager_back_end.Entity;
 
+import com.example.FootballManager_back_end.Enum.Role;
 import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.List;

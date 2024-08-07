@@ -1,4 +1,4 @@
-package com.example.FootballManager_back_end.auth;
+package com.example.FootballManager_back_end.DTO.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
