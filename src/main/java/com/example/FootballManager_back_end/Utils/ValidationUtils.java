@@ -12,7 +12,7 @@ public class ValidationUtils {
             throw new ApiRequestException(fieldName + " must be at least " + minLength + " characters long.");
     }
 
-    public static void validateIntField(int value, String fieldName, Integer minValue, Integer maxValue) {
+    public static void validateNumber(int value, String fieldName, Integer minValue, Integer maxValue) {
         if ((minValue != null && value < minValue) || (maxValue != null && value > maxValue)) {
             String range = (minValue != null ? "at least " + minValue : "") +
                     (minValue != null && maxValue != null ? " and " : "") +

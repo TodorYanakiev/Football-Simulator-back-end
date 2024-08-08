@@ -90,18 +90,18 @@ public class BaseFootballPlayerService {
         ValidationUtils.validateStringField(newBaseFootballPlayer.getFirstName(), "First name", 2);
         ValidationUtils.validateStringField(newBaseFootballPlayer.getLastName(), "Last name", 2);
         ValidationUtils.validateStringField(newBaseFootballPlayer.getNationality(), "Nationality", 2);
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getAge(), "Age", 15, null);
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getShirtNumber(), "Shirt number", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getAge(), "Age", 15, null);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getShirtNumber(), "Shirt number", 1, 99);
         if (newBaseFootballPlayer.getPosition() == null)
             throw new ApiRequestException("Position cannot be null.");
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getStartDefending(), "Defending", 1, 99);
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getStartSpeed(), "Speed", 1, 99);
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getStartDribble(), "Dribble", 1, 99);
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getStartScoring(), "Scoring", 1, 99);
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getStartPassing(), "Passing", 1, 99);
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getStartStamina(), "Stamina", 1, 99);
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getStartPositioning(), "Positioning", 1, 99);
-        ValidationUtils.validateIntField(newBaseFootballPlayer.getStartGoalkeeping(), "Goalkeeping", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartDefending(), "Defending", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartSpeed(), "Speed", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartDribble(), "Dribble", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartScoring(), "Scoring", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartPassing(), "Passing", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartStamina(), "Stamina", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartPositioning(), "Positioning", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartGoalkeeping(), "Goalkeeping", 1, 99);
     }
 
 }
