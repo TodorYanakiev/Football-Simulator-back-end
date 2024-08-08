@@ -16,28 +16,16 @@ public class FootballPlayer {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotEmpty
-    @Size(min = 2)
     private String firstName;
 
-    @NotEmpty
-    @Size(min = 2)
     private String lastName;
 
-    @NotEmpty
-    @Size(min = 2)
     private String nationality;
 
-    @NotNull
-    @Min(15)
     private Byte age;
 
-    @NotNull
-    @Min(1)
-    @Max(99)
     private Byte shirtNumber;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Position position;
 
