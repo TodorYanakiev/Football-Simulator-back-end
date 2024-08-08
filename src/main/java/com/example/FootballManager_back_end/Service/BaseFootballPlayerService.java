@@ -86,7 +86,7 @@ public class BaseFootballPlayerService {
         return "Base player with id " + id + " deleted successfully.";
     }
 
-    private void checkValidations(BaseFootballPlayerDTO newBaseFootballPlayer) {
+    protected void checkValidations(BaseFootballPlayerDTO newBaseFootballPlayer) {
         ValidationUtils.validateStringField(newBaseFootballPlayer.getFirstName(), "First name", 2);
         ValidationUtils.validateStringField(newBaseFootballPlayer.getLastName(), "Last name", 2);
         ValidationUtils.validateStringField(newBaseFootballPlayer.getNationality(), "Nationality", 2);
