@@ -4,6 +4,7 @@ import com.example.FootballManager_back_end.DTO.BaseFootballPlayerDTO;
 import com.example.FootballManager_back_end.Entity.BaseFootballPlayer;
 import com.example.FootballManager_back_end.Exception.ApiRequestException;
 import com.example.FootballManager_back_end.Repository.BaseFootballPlayerRepository;
+import com.example.FootballManager_back_end.Utils.ValidationUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class BaseFootballPlayerService {
     }
 
     public BaseFootballPlayerDTO createBaseFootballPlayer(BaseFootballPlayerDTO baseFootballPlayerDTO) {
+        checkValidations(baseFootballPlayerDTO);
         BaseFootballPlayer baseFootballPlayer = baseFootballPlayerDTOToBaseFootballPlayer(baseFootballPlayerDTO);
         baseFootballPlayerRepository.save(baseFootballPlayer);
         return baseFootballPlayerToBaseFootballPlayerDTO(baseFootballPlayer);
@@ -54,6 +56,7 @@ public class BaseFootballPlayerService {
             throw new ApiRequestException(String.format(PLAYER_NOT_FOUND_MESSAGE, id));
         }
 
+        checkValidations(playerDetails);
         BaseFootballPlayer player = playerOptional.get();
         player.setFirstName(playerDetails.getFirstName());
         player.setLastName(playerDetails.getLastName());
@@ -82,4 +85,23 @@ public class BaseFootballPlayerService {
         baseFootballPlayerRepository.delete(playerOptional.get());
         return "Base player with id " + id + " deleted successfully.";
     }
+
+    protected void checkValidations(BaseFootballPlayerDTO newBaseFootballPlayer) {
+        ValidationUtils.validateStringField(newBaseFootballPlayer.getFirstName(), "First name", 2);
+        ValidationUtils.validateStringField(newBaseFootballPlayer.getLastName(), "Last name", 2);
+        ValidationUtils.validateStringField(newBaseFootballPlayer.getNationality(), "Nationality", 2);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getAge(), "Age", 15, null);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getShirtNumber(), "Shirt number", 1, 99);
+        if (newBaseFootballPlayer.getPosition() == null)
+            throw new ApiRequestException("Position cannot be null.");
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartDefending(), "Defending", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartSpeed(), "Speed", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartDribble(), "Dribble", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartScoring(), "Scoring", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartPassing(), "Passing", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartStamina(), "Stamina", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartPositioning(), "Positioning", 1, 99);
+        ValidationUtils.validateNumber(newBaseFootballPlayer.getStartGoalkeeping(), "Goalkeeping", 1, 99);
+    }
+
 }
