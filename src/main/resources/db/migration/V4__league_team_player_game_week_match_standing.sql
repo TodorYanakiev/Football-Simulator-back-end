@@ -6,21 +6,18 @@ CREATE TABLE leagues (
 
 CREATE TABLE teams (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    abbreviation VARCHAR(255) NOT NULL,
-    stadium_name VARCHAR(255) NOT NULL,
+    base_team_id BIGINT NOT NULL,
     budget INT NOT NULL,
-    league_id BIGINT,
+    league_id BIGINT NOT NULL,
     user_id BIGINT,
+    CONSTRAINT fk_teams_base_team FOREIGN KEY (base_team_id) REFERENCES base_football_teams(id),
     CONSTRAINT fk_teams_league FOREIGN KEY (league_id) REFERENCES leagues(id),
     CONSTRAINT fk_teams_user FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE players (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    nationality VARCHAR(255) NOT NULL,
+    base_player_id BIGINT NOT NULL,
     age TINYINT NOT NULL CHECK (age >= 15),
     shirt_number TINYINT NOT NULL CHECK (shirt_number BETWEEN 1 AND 99),
     position ENUM('GK', 'LB', 'LCB', 'CB', 'RCB', 'RB', 'LM', 'LCM', 'CM', 'RCM', 'RM', 'RF', 'LCF', 'CF', 'RCF', 'LF') NOT NULL,
@@ -34,6 +31,7 @@ CREATE TABLE players (
     stamina TINYINT NOT NULL CHECK (stamina BETWEEN 1 AND 99),
     positioning TINYINT NOT NULL CHECK (positioning BETWEEN 1 AND 99),
     goalkeeping TINYINT NOT NULL CHECK (goalkeeping BETWEEN 1 AND 99),
+    CONSTRAINT fk_players_base_football_players FOREIGN KEY (base_player_id) REFERENCES base_football_players(id),
     CONSTRAINT fk_players_football_team FOREIGN KEY (football_team_id) REFERENCES teams(id)
 );
 

@@ -16,11 +16,10 @@ public class FootballPlayer {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String nationality;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "base_player_id")
+    private BaseFootballPlayer baseFootballPlayer;
 
     private Byte age;
 

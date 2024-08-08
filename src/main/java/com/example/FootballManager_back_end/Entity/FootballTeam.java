@@ -17,11 +17,9 @@ public class FootballTeam {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    private String abbreviation;
-
-    private String stadiumName;
+    @ManyToOne
+    @JoinColumn(name = "base_team_id")
+    private BaseTeam baseTeam;
 
     private Integer budget;
 
