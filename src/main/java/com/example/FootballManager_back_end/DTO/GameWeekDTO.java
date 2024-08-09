@@ -1,5 +1,6 @@
 package com.example.FootballManager_back_end.DTO;
 
+import com.example.FootballManager_back_end.Enum.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,16 +10,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FootballTeamDTO {
+public class GameWeekDTO {
     private Long id;
 
-    private Integer budget;
+    private Byte weekNumber;
 
-    private List<FootballPlayerDTO> footballPlayerDTOList;
+    private List<FootballMatchDTO> footballMatchDTOList;
 
     private LeagueDTO leagueDTO;
 
-    private StandingDTO standingDTO;
-
-    private UserDTO userDTO;
+    private Status gameWeekStatus;
 }

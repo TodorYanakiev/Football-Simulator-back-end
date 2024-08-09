@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LeagueController {
     private final LeagueService leagueService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<String> createLeague(@Valid @RequestBody LeagueCreateRequest request) {
         String message = leagueService.createLeague(request);
         return ResponseEntity.status(201).body(message);

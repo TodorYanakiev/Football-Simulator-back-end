@@ -4,21 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FootballTeamDTO {
+public class StandingDTO {
     private Long id;
 
-    private Integer budget;
-
-    private List<FootballPlayerDTO> footballPlayerDTOList;
+    private FootballTeamDTO footballTeamDTO;
 
     private LeagueDTO leagueDTO;
 
-    private StandingDTO standingDTO;
+    private Byte points;
 
-    private UserDTO userDTO;
+    private Short scoredGoals;
+
+    private Short concededGoals;
+
+    private Byte playedMatches;
 }
