@@ -59,7 +59,7 @@ class LeagueControllerIntegrationTest {
         when(leagueService.createLeague(any(LeagueCreateRequest.class)))
                 .thenReturn(expectedResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/leagues")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/leagues/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(leagueCreateRequest)))
                 .andExpect(status().isCreated())
