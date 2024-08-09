@@ -23,24 +23,34 @@ public class FootballMatch {
     @JoinColumn(name = "away_team_id")
     private FootballTeam awayTeam;
 
+    @Column(name = "home_team_score")
     private Short homeTeamScore;
 
+    @Column(name = "away_team_score")
     private Short awayTeamScore;
 
+    @Column(name = "home_attacks")
     private Short homeAttacks;
 
+    @Column(name = "away_attacks")
     private Short awayAttacks;
 
+    @Column(name = "danger_home_attacks")
     private Short dangerHomeAttacks;
 
+    @Column(name = "dangerAwayAttacks")
     private Short dangerAwayAttacks;
 
+    @Column(name = "home_shots")
     private Short homeShots;
 
+    @Column(name = "away_shots")
     private Short awayShots;
 
+    @Column(name = "home_shots_on_target")
     private Short homeShotsOnTarget;
 
+    @Column(name = "away_shots_on_target")
     private Short awayShotsOnTarget;
 
     private Byte halfTimesPassed;
