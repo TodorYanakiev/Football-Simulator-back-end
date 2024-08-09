@@ -1,6 +1,6 @@
 package com.example.FootballManager_back_end.Service;
 
-import com.example.FootballManager_back_end.Dto.BaseTeamDTO;
+import com.example.FootballManager_back_end.DTO.BaseTeamDTO;
 import com.example.FootballManager_back_end.Entity.BaseTeam;
 import com.example.FootballManager_back_end.Repository.BaseTeamRepository;
 import lombok.AllArgsConstructor;

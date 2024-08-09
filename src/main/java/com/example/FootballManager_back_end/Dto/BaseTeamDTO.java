@@ -1,4 +1,4 @@
-package com.example.FootballManager_back_end.Dto;
+package com.example.FootballManager_back_end.DTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
