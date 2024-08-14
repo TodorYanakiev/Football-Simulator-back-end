@@ -168,4 +168,72 @@ class BaseFootballPlayerServiceTest {
 
         Assertions.assertThrows(ApiRequestException.class, () -> baseFootballPlayerService.updateBaseFootballPlayer(playerId, playerDetails));
     }
+
+    @Test
+    void testCheckValidationsWhenValidPlayer() {
+        BaseFootballPlayerDTO player = new BaseFootballPlayerDTO(
+                null,
+                "John",
+                "Doe",
+                "USA",
+                (byte) 25,
+                (byte) 10,
+                Position.LCB,
+                (byte) 80,
+                (byte) 75,
+                (byte) 85,
+                (byte) 90,
+                (byte) 88,
+                (byte) 70,
+                (byte) 65,
+                (byte) 30
+        );
+        baseFootballPlayerService.checkValidations(player);
+    }
+
+    @Test
+    void testCheckValidationsWhenInvalidFirstName() {
+        BaseFootballPlayerDTO player = new BaseFootballPlayerDTO(
+                null,
+                "J",
+                "Doe",
+                "USA",
+                (byte) 25,
+                (byte) 10,
+                Position.GK,
+                (byte) 80,
+                (byte) 75,
+                (byte) 85,
+                (byte) 90,
+                (byte) 88,
+                (byte) 70,
+                (byte) 65,
+                (byte) 30
+        );
+        ApiRequestException exception = Assertions.assertThrows(ApiRequestException.class, () -> baseFootballPlayerService.checkValidations(player));
+        Assertions.assertEquals("First name must be at least 2 characters long.", exception.getMessage());
+    }
+
+    @Test
+    void testCheckValidationsWhenNullPosition() {
+        BaseFootballPlayerDTO player = new BaseFootballPlayerDTO(
+                null,
+                "John",
+                "Doe",
+                "USA",
+                (byte) 25,
+                (byte) 10,
+                null,
+                (byte) 80,
+                (byte) 75,
+                (byte) 85,
+                (byte) 90,
+                (byte) 88,
+                (byte) 70,
+                (byte) 65,
+                (byte) 30
+        );
+        ApiRequestException exception = Assertions.assertThrows(ApiRequestException.class, () -> baseFootballPlayerService.checkValidations(player));
+        Assertions.assertEquals("Position cannot be null.", exception.getMessage());
+    }
 }

@@ -123,7 +123,7 @@ class BaseTeamControllerIntegrationTest {
         BaseTeamDTO updatedBaseTeamDTO =
                 new BaseTeamDTO(baseTeamId, "UpdatedTorpedo", "UPD", "UpdatedPool", 1234567);
 
-        when(baseTeamService.updateBaseTeam(anyLong(), any(BaseTeamDTO.class))).thenReturn(updatedBaseTeamDTO);
+        when(baseTeamService.updateBaseTeamById(anyLong(), any(BaseTeamDTO.class))).thenReturn(updatedBaseTeamDTO);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/base-teams/{id}", baseTeamId)
                         .content(objectMapper.writeValueAsString(updatedBaseTeamDTO))

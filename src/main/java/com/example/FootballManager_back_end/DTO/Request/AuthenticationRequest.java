@@ -1,7 +1,5 @@
-package com.example.FootballManager_back_end.auth;
+package com.example.FootballManager_back_end.DTO.Request;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

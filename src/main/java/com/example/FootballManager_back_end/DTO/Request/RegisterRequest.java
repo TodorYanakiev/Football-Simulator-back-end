@@ -1,7 +1,5 @@
-package com.example.FootballManager_back_end.auth;
+package com.example.FootballManager_back_end.DTO.Request;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
 
-  private String firstname;
-  private String lastname;
+  private String firstName;
+
+  private String lastName;
+
   private String email;
+
   private String username;
+
   private String password;
 }

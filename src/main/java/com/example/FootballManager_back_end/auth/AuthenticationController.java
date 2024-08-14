@@ -1,18 +1,22 @@
 package com.example.FootballManager_back_end.auth;
 
+import com.example.FootballManager_back_end.DTO.UserDTO;
+import com.example.FootballManager_back_end.DTO.Request.AuthenticationRequest;
+import com.example.FootballManager_back_end.DTO.Request.RegisterRequest;
+import com.example.FootballManager_back_end.DTO.Response.AuthenticationResponse;
+import com.example.FootballManager_back_end.Service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RestController
 @RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService service;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
@@ -22,5 +26,11 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @GetMapping("/get-info")
+    public ResponseEntity<UserDTO> getUserInfo() {
+        UserDTO userDTO = authService.getUserInfo();
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 }

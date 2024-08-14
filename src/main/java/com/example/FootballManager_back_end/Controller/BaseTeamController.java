@@ -27,19 +27,19 @@ public class BaseTeamController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BaseTeamDTO> getBaseTeamById(@PathVariable Long id) throws Exception{
+    public ResponseEntity<BaseTeamDTO> getBaseTeamById(@PathVariable Long id){
         BaseTeamDTO baseTeamDTO = baseTeamService.getBaseTeamById(id);
         return ResponseEntity.ok(baseTeamDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BaseTeamDTO> updateBaseTeamById(@PathVariable Long id, @Valid @RequestBody BaseTeamDTO newBaseTeamDto) throws Exception{
-        BaseTeamDTO baseTeamDTO = baseTeamService.updateBaseTeam(id, newBaseTeamDto);
+    public ResponseEntity<BaseTeamDTO> updateBaseTeamById(@PathVariable Long id, @Valid @RequestBody BaseTeamDTO newBaseTeamDto){
+        BaseTeamDTO baseTeamDTO = baseTeamService.updateBaseTeamById(id, newBaseTeamDto);
         return ResponseEntity.ok(baseTeamDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBaseTeamById(@PathVariable Long id) throws Exception{
+    public ResponseEntity<String> deleteBaseTeamById(@PathVariable Long id){
         String message = baseTeamService.deleteBaseTeamById(id);
         return ResponseEntity.ok(message);
     }

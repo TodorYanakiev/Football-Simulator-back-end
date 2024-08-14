@@ -1,6 +1,6 @@
 package com.example.FootballManager_back_end.config;
 
-import com.example.FootballManager_back_end.user.UserRepository;
+import com.example.FootballManager_back_end.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -44,6 +44,11 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public JwtAuthenticationEntryPoint myJwtAuthenticationEntryPoint() {
+        return new JwtAuthenticationEntryPoint();
+    }
+    
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
