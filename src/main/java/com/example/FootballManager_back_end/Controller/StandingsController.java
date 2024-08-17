@@ -1,7 +1,6 @@
 package com.example.FootballManager_back_end.Controller;
 
 import com.example.FootballManager_back_end.DTO.StandingDTO;
-import com.example.FootballManager_back_end.Entity.Standing;
 import com.example.FootballManager_back_end.Service.StandingsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
