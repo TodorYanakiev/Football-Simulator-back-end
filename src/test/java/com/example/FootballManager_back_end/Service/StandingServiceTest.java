@@ -7,6 +7,8 @@ import com.example.FootballManager_back_end.Entity.BaseTeam;
 import com.example.FootballManager_back_end.Entity.FootballTeam;
 import com.example.FootballManager_back_end.Entity.League;
 import com.example.FootballManager_back_end.Entity.Standing;
+import com.example.FootballManager_back_end.Repository.FootballTeamRepository;
+import com.example.FootballManager_back_end.Repository.LeagueRepository;
 import com.example.FootballManager_back_end.Repository.StandingRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,13 +23,40 @@ class StandingServiceTest {
 
     @Mock
     private StandingRepository standingRepository;
+    @Mock
+    private FootballTeamRepository footballTeamRepository;
+
+    @Mock
+    private LeagueRepository leagueRepository;
 
     @InjectMocks
     private StandingsService standingsService;
 
+    private League league;
+    private List<FootballTeam> footballTeamList;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        league = new League();
+        footballTeamList = new ArrayList<>();
+
+        FootballTeam team1 = new FootballTeam();
+        FootballTeam team2 = new FootballTeam();
+
+        footballTeamList.add(team1);
+        footballTeamList.add(team2);
+
+        league.setFootballTeamList(footballTeamList);
+    }
+
+    @Test
+    void testAddStandings() {
+        standingsService.addStandings(league);
+        verify(leagueRepository).save(league);
+        verify(standingRepository, times(2)).save(any(Standing.class));
+        verify(footballTeamRepository, times(2)).save(any(FootballTeam.class));
     }
 
     @Test
