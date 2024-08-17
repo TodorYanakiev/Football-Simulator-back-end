@@ -18,6 +18,7 @@ public class StandingsService {
         return standings.stream()
                 .map(s -> new StandingResponse(
                         s.getLeague().getId(),
+                        s.getLeague().getName(),
                         s.getFootballTeam().getBaseTeam().getName(),
                         s.getPlayedMatches(),
                         s.getScoredGoals(),

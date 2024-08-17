@@ -1,6 +1,5 @@
 package com.example.FootballManager_back_end.DTO;
 
-import com.example.FootballManager_back_end.Entity.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +13,7 @@ public class FootballTeamDTO {
     private BaseTeamDTO baseTeam;
     private Integer budget;
     private LeagueDTO league;
-    private Standing standing;
+    private StandingDTO standing;
     private UserDTO user;
 
     //lineup when it comes time to

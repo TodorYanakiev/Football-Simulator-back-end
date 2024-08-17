@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StandingResponse {
     private Long leagueId;
+    private String leagueName;
     private String teamName;
     private int playedMatches;
     private int scoredGoals;
