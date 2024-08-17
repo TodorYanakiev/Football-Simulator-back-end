@@ -1,5 +1,6 @@
 package com.example.FootballManager_back_end.Repository;
 
+import com.example.FootballManager_back_end.DTO.Response.StandingResponse;
 import com.example.FootballManager_back_end.Entity.Standing;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

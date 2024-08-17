@@ -1,6 +1,6 @@
 package com.example.FootballManager_back_end.Controller;
 
-import com.example.FootballManager_back_end.DTO.StandingDTO;
+import com.example.FootballManager_back_end.DTO.Response.StandingResponse;
 import com.example.FootballManager_back_end.Service.StandingsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ public class StandingsController {
     private StandingsService standingsService;
 
     @GetMapping("/league/{leagueId}")
-    public ResponseEntity<List<StandingDTO>> getStandingsForLeague(@PathVariable("leagueId") Long leagueId) {
+    public ResponseEntity<List<StandingResponse>> getStandingsForLeague(@PathVariable("leagueId") Long leagueId) {
         try {
-            List<StandingDTO> standings = standingsService.getSortedStandingsByLeagueId(leagueId);
+            List<StandingResponse> standings = standingsService.getSortedStandingsByLeagueId(leagueId);
             return ResponseEntity.ok(standings);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
