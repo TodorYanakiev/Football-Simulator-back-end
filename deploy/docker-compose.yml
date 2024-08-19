@@ -47,5 +47,14 @@
         volumes:
           - ./config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
+      frontend_service:
+        image: atchee/football-simulator-front-end
+        restart: always
+        ports:
+          - 8082:8082
+        networks:
+          - springapimysql-net
+        depends_on:
+          - api_service
     networks:
       springapimysql-net:
