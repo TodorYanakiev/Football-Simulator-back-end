@@ -1,24 +1,21 @@
 package com.example.FootballManager_back_end.DTO;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class FootballTeamDTO {
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
-
+    private BaseTeamDTO baseTeam;
     private Integer budget;
+    private LeagueDTO league;
+    private StandingDTO standing;
+    private UserDTO user;
 
-    private List<FootballPlayerDTO> footballPlayerDTOList;
-
-    private LeagueDTO leagueDTO;
-
-    private StandingDTO standingDTO;
-
-    private UserDTO userDTO;
+    //lineup when it comes time to
 }
