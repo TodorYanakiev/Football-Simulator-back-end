@@ -8,8 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "base_football_teams")
@@ -23,9 +22,11 @@ public class BaseTeam {
     @NotEmpty
     @Size(min = 2, max = 4)
     private String abbreviation;
+
     @NotEmpty
     @Size(min = 3)
     private String stadiumName;
+
     @NotNull
     @Min(0)
     private int startBudget;

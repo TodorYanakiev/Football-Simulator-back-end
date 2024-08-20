@@ -11,5 +11,4 @@ import java.util.List;
 public interface StandingRepository extends JpaRepository<Standing, Long> {
     @Query("SELECT s FROM Standing s WHERE s.league.id = :leagueId ORDER BY s.points DESC, s.scoredGoals DESC")
     List<Standing> findSortedStandingsByLeagueId(@Param("leagueId") Long leagueId);
-
 }
